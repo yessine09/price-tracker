@@ -12,6 +12,7 @@ import {
   loginStart,
   loginSuccess,
 } from "../../features/useRedux";
+import "./auth.css";
 
 // Validation schema with Yup
 const loginSchema = Yup.object().shape({
@@ -82,7 +83,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="bg-light py-3 py-md-5 ">
+      <div className="py-3 py-md-5 mt-10 bg-light">
         <div className="container">
           <div className="row justify-content-md-center">
             <div className="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
@@ -219,18 +220,12 @@ const Login = () => {
                   <div className="col-12">
                     <hr className="mt-5 mb-4 border-secondary-subtle" />
                     <div className="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                      <a
-                        href="#!"
+                      <Link
+                        to="/register"
                         className="link-secondary text-decoration-none"
                       >
                         Create new account
-                      </a>
-                      <a
-                        href="#!"
-                        className="link-secondary text-decoration-none"
-                      >
-                        Forgot password
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

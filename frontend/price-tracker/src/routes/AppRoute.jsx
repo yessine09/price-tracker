@@ -7,6 +7,7 @@ import NavBar from "../layouts/NavBar";
 import HomePage from "../pages/home/HomePage";
 import Footer from "../layouts/Footer";
 import ProtectedRoute from "./ProtectedRoute";
+import PageError from "../components/PageError";
 
 const Home = React.lazy(() => import("../pages/home/HomePage"));
 
@@ -17,9 +18,8 @@ const AppRoute = () => {
         <Routes>
           <Route index path="/" element={<Login />} />
           <Route index path="/register" element={<Register />} />
-          <Route index path="/nav" element={<NavBar />} />
-          <Route index path="/footer" element={<Footer />} />
           <Route path="/home" element={<ProtectedRoute component={Home} />} />
+          <Route path="*" element={<PageError />} />
         </Routes>
       </Suspense>
     </>

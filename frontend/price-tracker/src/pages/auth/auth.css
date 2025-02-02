@@ -1,0 +1,14 @@
+/* Full-page gray background */
+body,
+html {
+  background-color: #f5f5f583;
+  height: 100%;
+}
+
+/* Make the login box responsive */
+@media (max-width: 768px) {
+  .login-container {
+    width: 90%;
+    padding: 20px;
+  }
+}
