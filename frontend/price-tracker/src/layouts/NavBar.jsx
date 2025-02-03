@@ -52,7 +52,7 @@ const NavBar = () => {
             </ul>
             <a className="navbar-brand" href="index.html">
               <img
-                src="./assets/img/branding/console-logo.svg"
+                src="./assets/img/pstrack_logo.png"
                 className="bsb-tpl-logo"
                 alt="BootstrapBrain Logo"
               />
@@ -407,7 +407,21 @@ const NavBar = () => {
                   <ul className="dropdown-menu dropdown-menu-md-end bsb-dropdown-animation bsb-fadeIn">
                     <li>
                       <h6 className="dropdown-header fs-7 text-center">
-                        Welcome, Ethan Leo
+                        Welcome,
+                        <span className="text-primary">
+                          {auth?.currentUser?.user?.name
+                            ? auth.currentUser.user.name
+                                .charAt(0)
+                                .toUpperCase() +
+                              auth.currentUser.user.name.slice(1)
+                            : ""}{" "}
+                          {auth?.currentUser?.user?.lastName
+                            ? auth.currentUser.user.lastName
+                                .charAt(0)
+                                .toUpperCase() +
+                              auth.currentUser.user.lastName.slice(1)
+                            : ""}
+                        </span>
                       </h6>
                     </li>
                     <li>
@@ -434,8 +448,8 @@ const NavBar = () => {
                               <div className="text-secondary mt-1 fs-7">
                                 Premium Account
                               </div>
-                              <div className="text-secondary mt-1 fs-7">
-                                leo@example.com
+                              <div className=" mt-1 fs-7 text-info">
+                                {auth?.currentUser?.user?.email}
                               </div>
                             </div>
                           </div>

@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { StocksService } from './stocks.service';
 
@@ -10,10 +10,5 @@ export class StocksController {
   @Get(':symbol')
   async getStock(@Param('symbol') symbol: string) {
     return this.stocksService.getStockPrice(symbol);
-  }
-
-  @Get(':symbol/history')
-  async getStockHistory(@Param('symbol') symbol: string) {
-    return this.stocksService.getStockHistory(symbol);
   }
 }

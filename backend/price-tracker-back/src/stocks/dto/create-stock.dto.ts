@@ -1,12 +1,12 @@
-import { IsString, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsString, IsDate } from 'class-validator';
 
-export class CreateActionDto {
-  @ApiProperty({
-    type: String,
-    description: 'The symbol of the stock (e.g., AAPL, TSLA)',
-    example: 'AAPL', // Exemple de valeur
-  })
+export class CreateStockDto {
+    @ApiProperty({
+        type: String,
+        description: 'The symbol of the stock (e.g., AAPL, TSLA)',
+        example: 'AAPL', // Exemple de valeur
+      })
   @IsString()
   symbol: string;
 
@@ -25,4 +25,7 @@ export class CreateActionDto {
   })
   @IsNumber()
   percentageChange: number;
+
+  @IsDate()
+  timestamp: Date;
 }

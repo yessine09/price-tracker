@@ -12,7 +12,7 @@ const SideBar = () => {
         <div className="offcanvas-header">
           <a className="sidebar-brand" href="index.html">
             <img
-              src="./assets/img/branding/console-logo.svg"
+              src="./assets/img/pstrack_logo.png"
               id="bsbSidebarLabel1"
               className="bsb-tpl-logo"
               alt="BootstrapBrain Logo"

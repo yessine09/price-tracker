@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { StocksModule } from './stocks/stocks.module';
 import { WatchlistModule } from './watchlist/watchlist.module';
-import { ActionModule } from './action/action.module';
+import { HistoricalPriceModule } from './historical-price/historical-price.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -21,7 +21,7 @@ dotenv.config();
     AuthModule,
     StocksModule,
     WatchlistModule,
-    ActionModule,
+    HistoricalPriceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

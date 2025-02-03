@@ -1,45 +1,43 @@
 // src/watchlist/watchlist.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose'; // Pas besoin de 'Types' puisque déjà géré par Mongoose pour ObjectId
-import { Watchlist } from './entities/watchlist.entity';
-import { Action } from 'src/action/entities/action.entity';
+import { Model } from 'mongoose'; 
 import { IWatchlist } from './interface/watchlist.interface';
-import { IAction } from 'src/action/interface/action.interface';
+
+import { IStock } from 'src/stocks/interface/stocks.interface';
 
 @Injectable()
 export class WatchlistService {
   constructor(
     @InjectModel('watchlists') private watchlistModel: Model<IWatchlist>,
-    @InjectModel('Action') private actionModel: Model<IAction>,
+    @InjectModel('stocks') private stockModel: Model<IStock>,
   ) {}
 
-  async addToWatchlist(userId: string, actionId: string): Promise<IWatchlist> {
+  async addToWatchlist(userId: string, stockId: string): Promise<IWatchlist> {
     let watchlist = await this.watchlistModel.findOne({ user: userId }).exec();
 
     // Si la watchlist n'existe pas, on en crée une nouvelle
     if (!watchlist) {
       // Création d'une nouvelle watchlist pour l'utilisateur
-      watchlist = new this.watchlistModel({ user: userId, actions: [] });
+      watchlist = new this.watchlistModel({ user: userId, stocks: [] });
       await watchlist.save(); // Enregistre la nouvelle watchlist dans la base de données
     }
 
-    // Récupérer l'action à ajouter
-    const action = await this.actionModel.findById(actionId).exec();
-    if (!action) {
-      throw new NotFoundException('Action not found');
+    // Récupérer l'stock à ajouter
+    const stock = await this.stockModel.findById(stockId).exec();
+    if (!stock) {
+      throw new NotFoundException('Stock not found');
     }
-    console.log(action); // Vérifie que l'action est bien récupérée et que son format est correct
 
-    // Vérifier si l'action est déjà dans la watchlist, sinon, on l'ajoute
+    // Vérifier si l'stock est déjà dans la watchlist, sinon, on l'ajoute
     if (
-      !watchlist.actions.some(
-        (existingAction) => existingAction._id.toString() === actionId,
+      !watchlist.stocks.some(
+        (existingstock) => existingstock._id.toString() === stockId,
       )
     ) {
-      watchlist.actions.push(action);
+      watchlist.stocks.push(stock);
       await watchlist.save();
-      console.log(watchlist.actions); // Vérifie que l'action a bien été ajoutée à la watchlist
+      console.log(watchlist.stocks); // Vérifie que l'stock a bien été ajoutée à la watchlist
     }
 
     return watchlist;
@@ -47,7 +45,7 @@ export class WatchlistService {
 
   async removeFromWatchlist(
     userId: string,
-    actionId: string,
+    stockId: string,
   ): Promise<IWatchlist> {
     const watchlist = await this.watchlistModel
       .findOne({ user: userId })
@@ -57,9 +55,9 @@ export class WatchlistService {
       throw new NotFoundException('Watchlist not found for this user');
     }
 
-    // Retirer l'action de la watchlist
-    watchlist.actions = watchlist.actions.filter(
-      (action) => action._id.toString() !== actionId,
+    // Retirer l'stock de la watchlist
+    watchlist.stocks = watchlist.stocks.filter(
+      (stock) => stock._id.toString() !== stockId,
     );
     await watchlist.save();
 
@@ -69,24 +67,20 @@ export class WatchlistService {
   async getWatchlistByUser(userId: string): Promise<IWatchlist> {
     const watchlist = await this.watchlistModel
       .findOne({ user: userId })
-      /*    .populate({
-        path: 'actions', // Indique le chemin du champ à peupler
-        model: 'Action', // Spécifie le modèle Action pour le peuplement
-      }) */
       .exec();
 
     if (!watchlist) {
       throw new NotFoundException('Watchlist not found for this user');
     }
-    // Peupler les actions manuellement
 
-    const actions = await this.actionModel
+    // Peupler les stocks manuellement
+    const stocks = await this.stockModel
       .find({
-        _id: { $in: watchlist.actions }, // Récupérer les actions qui correspondent aux ObjectId dans la watchlist
+        _id: { $in: watchlist.stocks }, // Récupérer les stocks qui correspondent aux ObjectId dans la watchlist
       })
       .exec();
 
-    watchlist.actions = actions; // Remplacer les ObjectId par les objets action
+    watchlist.stocks = stocks;
 
     return watchlist;
   }

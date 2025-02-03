@@ -8,20 +8,20 @@ import { ApiTags } from '@nestjs/swagger';
 export class WatchlistController {
   constructor(private readonly watchlistService: WatchlistService) {}
 
-  @Post(':userId/add/:actionId')
+  @Post(':userId/add/:stockId')
   async addToWatchlist(
     @Param('userId') userId: string,
-    @Param('actionId') actionId: string,
+    @Param('stockId') stockId: string,
   ): Promise<IWatchlist> {
-    return this.watchlistService.addToWatchlist(userId, actionId);
+    return this.watchlistService.addToWatchlist(userId, stockId);
   }
 
-  @Delete(':userId/remove/:actionId')
+  @Delete(':userId/remove/:stockId')
   async removeFromWatchlist(
     @Param('userId') userId: string,
-    @Param('actionId') actionId: string,
+    @Param('stockId') stockId: string,
   ): Promise<IWatchlist> {
-    return this.watchlistService.removeFromWatchlist(userId, actionId);
+    return this.watchlistService.removeFromWatchlist(userId, stockId);
   }
 
   @Get(':userId')

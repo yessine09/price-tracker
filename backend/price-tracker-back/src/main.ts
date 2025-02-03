@@ -41,7 +41,7 @@ async function bootstrap() {
     .addTag('auth')
     .addTag('users')
     .addTag('stocks')
-    .addTag('actions')
+    .addTag('historical-price')
     .addTag('watchlist')
     .build();
   const document = SwaggerModule.createDocument(app, config);
