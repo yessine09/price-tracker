@@ -18,8 +18,6 @@ export class User {
   @Prop()
   refreshToken?: string;
 
-  @Prop({ default: false })
-  isActive: boolean;
 }
 
 export const userSchema = SchemaFactory.createForClass(User).pre(

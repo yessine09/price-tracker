@@ -111,14 +111,4 @@ export class AuthService {
     return { tokens, user };
   }
 
-  //   // Fonction pour convertir un objet en une chaîne de paramètres d'URL
-  //   objectToUrlParams(obj) {
-  //     const params = [];
-
-  //     for (const key in obj) {
-  //       params.push(`${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`);
-  //     }
-
-  //     return params.join('&');
-  //   }
 }

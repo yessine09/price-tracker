@@ -9,11 +9,8 @@ const Footer = () => {
             <div className="col">
               <div className="py-3">
                 Built by{" "}
-                <a
-                  href="https://bootstrapbrain.com/"
-                  className="link-secondary text-decoration-none"
-                >
-                  BootstrapBrain
+                <a className="link-secondary text-decoration-none">
+                  Yessine Akaichi
                 </a>{" "}
                 with <span className="text-accent">♥</span>
               </div>
