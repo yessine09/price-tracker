@@ -31,10 +31,6 @@ const AppRoute = () => {
             path="/historical"
             element={<ProtectedRoute component={HistoricalPrice} />}
           />
-          <Route
-            path="/chart"
-            element={<ProtectedRoute component={HistoricalChart} />}
-          />
 
           <Route
             path="/home/:id"
