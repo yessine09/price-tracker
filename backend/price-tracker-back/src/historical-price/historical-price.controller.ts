@@ -22,4 +22,13 @@ export class HistoricalPriceController {
     }
     return this.historicalPriceService.getStockHistory(symbol);
   }
+
+  @Get('last7/:symbol')
+  async getLast7HistoricalPrices(@Param('symbol') symbol: string) {
+    try {
+      return await this.historicalPriceService.getLast7HistoricalPrices(symbol);
+    } catch (error) {
+      throw new HttpException(error.message, error.getStatus());
+    }
+  }
 }

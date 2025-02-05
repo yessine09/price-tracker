@@ -10,6 +10,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import PageError from "../components/PageError";
 import Watchlist from "../pages/watchlist/Watchlist";
 import StockDetail from "../pages/stocks/StockDetail";
+import HistoricalPrice from "../pages/historical/HistoricalPrice";
+import HistoricalChart from "../pages/historical/HistoricalChart";
 
 const Home = React.lazy(() => import("../pages/home/HomePage"));
 
@@ -24,6 +26,14 @@ const AppRoute = () => {
           <Route
             path="/watchlist"
             element={<ProtectedRoute component={Watchlist} />}
+          />
+          <Route
+            path="/historical"
+            element={<ProtectedRoute component={HistoricalPrice} />}
+          />
+          <Route
+            path="/chart"
+            element={<ProtectedRoute component={HistoricalChart} />}
           />
 
           <Route

@@ -14,10 +14,12 @@ export class HistoricalPriceService {
   async getStockHistory(symbol: string): Promise<any> {
     const url = `https://finance.yahoo.com/quote/${symbol}/history`;
 
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-
+    let browser;
     try {
+      // Launch browser and open a new page
+      browser = await puppeteer.launch({ headless: true });
+      const page = await browser.newPage();
+
       await page.goto(url, { waitUntil: 'networkidle2' });
 
       const rows = await page.$$('tr');
@@ -39,16 +41,46 @@ export class HistoricalPriceService {
             volume: parseInt(cols[6].replace(/,/g, ''), 10),
           });
 
+          // Save each historical price to the database
           await historicalPrice.save();
           history.push(historicalPrice);
         }
       }
 
-      await browser.close();
       return { symbol, history };
     } catch (error) {
-      await browser.close();
+      console.error('Error fetching stock history:', error);
       throw new HttpException('Stock history not found', HttpStatus.NOT_FOUND);
+    } finally {
+      // Ensure Puppeteer browser instance is closed, even in case of error
+      if (browser) {
+        await browser.close();
+      }
+    }
+  }
+
+  // New method to get the last 7 historical prices for a given symbol
+  async getLast7HistoricalPrices(symbol: string): Promise<HistoricalPrice[]> {
+    try {
+      const historicalPrices = await this.historicalPriceModel
+        .find({ symbol }) // Filter by symbol
+        .sort({ date: -1 }) // Sort by date descending (newest first)
+        .limit(7) // Get only the last 7 records
+        .exec();
+
+      if (!historicalPrices.length) {
+        throw new HttpException(
+          'No historical data found for the given symbol',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      return historicalPrices;
+    } catch (error) {
+      throw new HttpException(
+        'Error retrieving historical data',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }

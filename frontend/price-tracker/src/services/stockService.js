@@ -45,6 +45,16 @@ const getWatchlist = async (userId) => {
   return await instanceAxios.get(`${WATCHLIST_ENDPOINT}/${userId}`);
 };
 
+// Récupérer l'historique price scraped
+const getHistorical = async (symbol) => {
+  return await instanceAxios.get(`historical-price/${symbol}`);
+};
+
+// Récupérer l'historique price pour 7 days
+const getHistoricalData = async (symbol) => {
+  return await instanceAxios.get(`historical-price/last7/${symbol}`);
+};
+
 export default {
   getStockPrice,
   getStockHistory,
@@ -54,4 +64,6 @@ export default {
   addToWatchlist,
   removeFromWatchlist,
   getWatchlist,
+  getHistorical,
+  getHistoricalData,
 };

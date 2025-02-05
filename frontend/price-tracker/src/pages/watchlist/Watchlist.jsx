@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, Input, Card, Alert } from "antd";
-import {
-  DeleteOutlined,
-  PlusCircleOutlined,
-  HomeOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, HomeOutlined } from "@ant-design/icons";
 import stockService from "../../services/stockService";
 import moment from "moment"; // For date formatting
 import Swal from "sweetalert2";
 import NavBar from "../../layouts/NavBar";
 import { Link } from "react-router-dom";
+import Footer from "../../layouts/Footer";
 
 const Watchlist = () => {
-  // Get userId from Redux
   const auth = useSelector((state) => state.user?.currentUser);
   const userId = auth?.user?._id;
 
   const [watchlist, setWatchlist] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [stockSymbol, setStockSymbol] = useState(""); // For storing the stock symbol input
 
   // Fetch the user's watchlist
   useEffect(() => {
@@ -44,27 +39,6 @@ const Watchlist = () => {
       setWatchlist([]); // Reset watchlist on error
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Function to add a stock to the watchlist
-  const handleAddStock = async () => {
-    if (!stockSymbol) {
-      message.error("Please enter a stock symbol.");
-      return;
-    }
-
-    try {
-      // Assuming stockService.getStockIdBySymbol fetches stock data by symbol
-      const stockData = await stockService.getStockIdBySymbol(stockSymbol);
-      if (stockData) {
-        addToWatchlist(stockData._id); // Assuming stockData contains _id
-        setStockSymbol(""); // Reset the input field
-      } else {
-        message.error("Stock not found.");
-      }
-    } catch (err) {
-      message.error("Failed to fetch stock.");
     }
   };
 
@@ -207,6 +181,7 @@ const Watchlist = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

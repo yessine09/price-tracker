@@ -9,19 +9,20 @@ import {
   HeartOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
-import Watchlist from "../watchlist/Watchlist";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import HistoricalPrice from "../historical/HistoricalPrice";
 
 const HomePage = () => {
   const [symbol, setSymbol] = useState("");
-  const [symbolSearch, setSymbolSearch] = useState(""); // Use symbolSearch for the input
+  const [symbolSearch, setSymbolSearch] = useState("");
   const [stockData, setStockData] = useState(null);
   const [stockDataSearch, setStockDataSearch] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [watchlist, setWatchlist] = useState([]);
+  const [symbolH, setSymbolH] = useState("AAPL");
 
   const auth = useSelector((state) => state.user?.currentUser);
   const userId = auth?.user?._id;
@@ -41,8 +42,6 @@ const HomePage = () => {
 
       if (response.data) {
         setStockData(response.data);
-        console.log("data", stockData);
-
         setError(null); // Réinitialiser l'erreur si la récupération réussit
       } else {
         setStockData(null);
@@ -66,7 +65,6 @@ const HomePage = () => {
 
     try {
       const response = await stockService.searchStock(symbolSearch);
-      console.log("responseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", response);
 
       if (response.data) {
         setStockDataSearch(response.data); // Assuming the response contains the stock data
@@ -139,6 +137,12 @@ const HomePage = () => {
         confirmButtonText: "Ok",
       });
     }
+  };
+
+  const handleButtonClick = () => {
+    setSymbolH(symbolSearch); // Set the symbolSearch from the input
+    handleSearchStock(symbolSearch); // Update symbolH for HistoricalPrice
+    handleSearchStock();
   };
 
   // Load watchlist from localStorage on page load
@@ -392,65 +396,7 @@ const HomePage = () => {
             <div className="row gy-3 gy-md-4">
               <div className="col-12 col-lg-6 col-xl-5">
                 {/* hisory */}
-                <div class="card widget-card bsb-timeline-8 border-light shadow-sm h-100">
-                  <div class="card-body p-4">
-                    <h4
-                      className=" mb-4 fw-bold text-bold"
-                      style={{ fontSize: "24px", letterSpacing: "1px" }}
-                    >
-                      Recent Transactions
-                    </h4>
-
-                    <ul class="timeline">
-                      <li class="timeline-item">
-                        <div class="timeline-body">
-                          <div class="timeline-meta">
-                            <span>32 minutes</span>
-                          </div>
-                          <div class="timeline-content timeline-indicator">
-                            <h6 class="mb-1">
-                              Amount received in the PayPal gateway.
-                            </h6>
-                            <span class="text-secondary fs-7">
-                              User: William Lucas
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="timeline-item">
-                        <div class="timeline-body">
-                          <div class="timeline-meta">
-                            <span>49 minutes</span>
-                          </div>
-                          <div class="timeline-content timeline-indicator">
-                            <h6 class="mb-1">
-                              New sale recorded in the Bootstrap admin
-                              templates.
-                            </h6>
-                            <span class="text-secondary fs-7">
-                              Product: Console
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="timeline-item">
-                        <div class="timeline-body">
-                          <div class="timeline-meta">
-                            <span>2 hours</span>
-                          </div>
-                          <div class="timeline-content timeline-indicator">
-                            <h6 class="mb-1">
-                              User registered in the discount campaign.
-                            </h6>
-                            <span class="text-secondary fs-7">
-                              Country: United States
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                <HistoricalPrice symbol={symbolH} />
               </div>
               <div className="col-12 col-lg-6 col-xl-7">
                 <div className="card widget-card border-light shadow-sm h-100">
@@ -466,7 +412,10 @@ const HomePage = () => {
                       <AutoComplete
                         value={symbolSearch}
                         onChange={setSymbolSearch}
-                        onSelect={setSymbolSearch} // Sets value when clicked on suggestion
+                        onSelect={(symbol) => {
+                          setSymbolSearch(symbol); // Set the value to the selected symbol
+                          // handleSymbolClick(symbol); // Update the symbolH state for HistoricalPrice
+                        }}
                         options={filteredSymbols.map((symbol) => ({
                           value: symbol,
                         }))}
@@ -480,8 +429,7 @@ const HomePage = () => {
                       <Button
                         type="primary"
                         icon={<SearchOutlined />}
-                        onClick={handleSearchStock}
-                        loading={loading}
+                        onClick={handleButtonClick}
                       >
                         Search
                       </Button>
@@ -548,20 +496,22 @@ const HomePage = () => {
                           at the hour{" "}
                           {new Date(stockDataSearch.date).toLocaleTimeString()}
                         </p>
-
-                        <Button
-                          type="primary"
-                          icon={<HeartOutlined />}
-                          onClick={handleAddToWatchlist}
-                          style={{
-                            backgroundColor: "#ff4d4f", // Heart color
-                            borderColor: "#ff4d4f",
-                            fontSize: "16px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Add to Watchlist
-                        </Button>
+                        <div>
+                          <Button
+                            type="primary"
+                            className="mt-2"
+                            icon={<HeartOutlined />}
+                            onClick={handleAddToWatchlist}
+                            style={{
+                              backgroundColor: "#ff4d4f", // Heart color
+                              borderColor: "#ff4d4f",
+                              fontSize: "16px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            Add to Watchlist
+                          </Button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -623,8 +573,7 @@ const HomePage = () => {
                               {stockData.symbol}
                             </h4>
                             <p className="fs-4 fw-bold text-dark">
-                              Price: $
-                              {parseFloat(stockData.currentPrice).toFixed(2)}
+                              Price: ${stockData.currentPrice}
                             </p>
                             <p
                               className={`fs-5 fw-bold ${
@@ -635,8 +584,23 @@ const HomePage = () => {
                             >
                               Change: {stockData.percentageChange}%
                             </p>
-                            <p className="fs-6 text-muted">
-                              Date: {stockDataSearch.date}
+                            <p
+                              className="fs-6 text-muted"
+                              style={{
+                                fontSize: "14px",
+                                color: "#4e4e4e",
+                                backgroundColor: "#f4f4f4",
+                                padding: "8px 12px",
+                                borderRadius: "8px",
+                                display: "inline-block",
+                                marginTop: "10px",
+                                fontStyle: "italic",
+                              }}
+                            >
+                              Date:{" "}
+                              {new Date(stockData.date).toLocaleDateString()} at
+                              the hour{" "}
+                              {new Date(stockData.date).toLocaleTimeString()}
                             </p>
                           </div>
                         )}

@@ -50,13 +50,13 @@ const NavBar = () => {
                 </a>
               </li>
             </ul>
-            <a className="navbar-brand" href="index.html">
+            <div className="navbar-brand">
               <img
                 src="./assets/img/pstrack_logo.png"
                 className="bsb-tpl-logo"
                 alt="BootstrapBrain Logo"
               />
-            </a>
+            </div>
             <button
               className="navbar-toggler border-0"
               type="button"
