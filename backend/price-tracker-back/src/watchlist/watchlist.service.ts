@@ -1,7 +1,7 @@
 // src/watchlist/watchlist.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose'; 
+import { Model } from 'mongoose';
 import { IWatchlist } from './interface/watchlist.interface';
 
 import { IStock } from 'src/stocks/interface/stocks.interface';
@@ -13,7 +13,7 @@ export class WatchlistService {
     @InjectModel('stocks') private stockModel: Model<IStock>,
   ) {}
 
-  async addToWatchlist(userId: string, stockId: string): Promise<IWatchlist> {
+  /*  async addToWatchlist(userId: string, stockId: string): Promise<IWatchlist> {
     let watchlist = await this.watchlistModel.findOne({ user: userId }).exec();
 
     // Si la watchlist n'existe pas, on en crée une nouvelle
@@ -38,6 +38,41 @@ export class WatchlistService {
       watchlist.stocks.push(stock);
       await watchlist.save();
       console.log(watchlist.stocks); // Vérifie que l'stock a bien été ajoutée à la watchlist
+    }
+
+    return watchlist;
+  } */
+
+  async addToWatchlist(userId: string, stockId: string): Promise<IWatchlist> {
+    let watchlist = await this.watchlistModel.findOne({ user: userId }).exec();
+
+    // If the watchlist doesn't exist, create a new one
+    if (!watchlist) {
+      watchlist = new this.watchlistModel({ user: userId, stocks: [] });
+      await watchlist.save(); // Save the new watchlist
+    }
+
+    // Retrieve the stock to add
+    const stock = await this.stockModel.findById(stockId).exec();
+    if (!stock) {
+      throw new NotFoundException('Stock not found');
+    }
+
+    // Look for the existing stock by symbol in the watchlist
+    const existingStockIndex = watchlist.stocks.findIndex(
+      (existingStock) => existingStock.symbol === stock.symbol,
+    );
+
+    if (existingStockIndex !== -1) {
+      // If the stock exists, replace the old stock with the new one (by symbol)
+      watchlist.stocks[existingStockIndex] = stock;
+      await watchlist.save();
+      console.log(`Updated ${stock.symbol} in the watchlist.`);
+    } else {
+      // If the stock doesn't exist, add it to the watchlist
+      watchlist.stocks.push(stock);
+      await watchlist.save();
+      console.log(`Added ${stock.symbol} to the watchlist.`);
     }
 
     return watchlist;

@@ -11,6 +11,8 @@ export class Stock {
   @Prop({ required: true })
   percentageChange: number;  // Le changement en pourcentage de l'action
   
+  @Prop({ type: String, required: true })
+  date: string;  // La date du prix récupéré
 
 }
 
