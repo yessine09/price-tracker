@@ -16,7 +16,6 @@ export class HistoricalPriceService {
 
     let browser;
     try {
-      // Launch browser and open a new page
       browser = await puppeteer.launch({ headless: true });
       const page = await browser.newPage();
 
@@ -41,7 +40,6 @@ export class HistoricalPriceService {
             volume: parseInt(cols[6].replace(/,/g, ''), 10),
           });
 
-          // Save each historical price to the database
           await historicalPrice.save();
           history.push(historicalPrice);
         }
@@ -52,7 +50,6 @@ export class HistoricalPriceService {
       console.error('Error fetching stock history:', error);
       throw new HttpException('Stock history not found', HttpStatus.NOT_FOUND);
     } finally {
-      // Ensure Puppeteer browser instance is closed, even in case of error
       if (browser) {
         await browser.close();
       }
@@ -63,9 +60,9 @@ export class HistoricalPriceService {
   async getLast7HistoricalPrices(symbol: string): Promise<HistoricalPrice[]> {
     try {
       const historicalPrices = await this.historicalPriceModel
-        .find({ symbol }) // Filter by symbol
-        .sort({ date: -1 }) // Sort by date descending (newest first)
-        .limit(7) // Get only the last 7 records
+        .find({ symbol })
+        .sort({ date: -1 })
+        .limit(7)
         .exec();
 
       if (!historicalPrices.length) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Button, Input, Card, Alert } from "antd";
+import { Button, Card, Alert } from "antd";
 import { DeleteOutlined, HomeOutlined } from "@ant-design/icons";
 import stockService from "../../services/stockService";
 import moment from "moment"; // For date formatting
@@ -81,12 +81,11 @@ const Watchlist = () => {
   return (
     <>
       <NavBar />
-
+      {/* WatchList Section */}
       <section className="pb-3 pb-md-4 pb-xl-5 bg-light mt-5">
         <div className="container">
           <div className="row gy-3 gy-md-4">
             <div className="">
-              {/* Chart 1 - Bootstrap Brain Component */}
               <div className="card widget-card border-light shadow-sm h-100">
                 <div className="card-body p-4">
                   <div className="d-block d-sm-flex align-items-center justify-content-between mb-3">
@@ -116,7 +115,6 @@ const Watchlist = () => {
                                   <span style={{ color: "#0059b3" }}>
                                     {stock.symbol}
                                   </span>{" "}
-                                  {/* Change color for the symbol */}
                                 </span>
                               }
                               extra={
@@ -164,7 +162,6 @@ const Watchlist = () => {
                       </div>
                     </div>
                   </div>
-                  {/* Back to Home Button */}
                   <Link to="/home">
                     <Button
                       type="primary"

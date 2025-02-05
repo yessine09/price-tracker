@@ -27,11 +27,9 @@ export class StocksController {
   @Get('latest/:symbol')
   async getLatestStockData(@Param('symbol') symbol: string) {
     try {
-      // Fetch the latest stock data for the given symbol
       const latestStockData = await this.stocksService.getLastStockData(symbol);
       return latestStockData;
     } catch (error) {
-      // Handle any errors that occur during the process
       throw new HttpException(
         error.message || 'Failed to retrieve stock data',
         HttpStatus.NOT_FOUND,

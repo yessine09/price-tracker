@@ -3,6 +3,8 @@ import instanceAxios from "../configs/axios";
 const STOCKS_ENDPOINT = "/stocks";
 const WATCHLIST_ENDPOINT = "/watchlist";
 
+// ----------------------Stocks EndPoints----------------------
+
 // Récupérer le prix actuel d'une action
 const getStockPrice = async (symbol) => {
   return await instanceAxios.get(`${STOCKS_ENDPOINT}/${symbol}`);
@@ -13,18 +15,22 @@ const getStockHistory = async (symbol) => {
   return await instanceAxios.get(`${STOCKS_ENDPOINT}/${symbol}/history`);
 };
 
+// Récupérer lastStock
 const getLastStock = async () => {
   return await instanceAxios.get(`${STOCKS_ENDPOINT}`);
 };
 
-// Récupérer OneStock
+// Récupérer OneStock for detailStock
 const getOneStock = async (stockId) => {
   return await instanceAxios.get(`${STOCKS_ENDPOINT}/getOne/${stockId}`);
 };
 
+//Search Stock by symbol
 const searchStock = async (symbole) => {
   return await instanceAxios.get(`${STOCKS_ENDPOINT}/latest/${symbole}`);
 };
+
+// ----------------------WatchList EndPoints----------------------
 
 // Ajouter une action à la watchlist d'un utilisateur
 const addToWatchlist = async (userId, stockId) => {
@@ -44,6 +50,8 @@ const removeFromWatchlist = async (userId, stockId) => {
 const getWatchlist = async (userId) => {
   return await instanceAxios.get(`${WATCHLIST_ENDPOINT}/${userId}`);
 };
+
+// ----------------------Historical EndPoints----------------------
 
 // Récupérer l'historique price scraped
 const getHistorical = async (symbol) => {

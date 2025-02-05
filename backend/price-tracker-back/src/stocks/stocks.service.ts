@@ -8,7 +8,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as puppeteer from 'puppeteer';
 import { IStock } from './interface/stocks.interface';
-import { log } from 'console';
 
 @Injectable()
 export class StocksService {
@@ -62,7 +61,7 @@ export class StocksService {
       if (!dateText) {
         dateText = new Date().toLocaleString('en-US', {
           timeZone: 'America/New_York',
-        }); // Heure de New York (NYSE)
+        });
       }
 
       console.log(
@@ -90,10 +89,10 @@ export class StocksService {
         symbol,
         currentPrice,
         percentageChange,
-        date: dateText, // Stocke directement la date scrapée sans modification
+        date: dateText,
       });
 
-      await newStock.save(); // Sauvegarde dans la base de données
+      await newStock.save();
       console.log('Data to save:', {
         symbol,
         currentPrice,
@@ -101,29 +100,23 @@ export class StocksService {
         dateText,
       });
 
-      console.log('🟢 Stock saved to DB:', newStock);
-
       return { symbol, currentPrice, percentageChange, date: dateText };
     } catch (error) {
-      console.error('❌ Error fetching stock data:', error.message);
       await browser.close();
       throw new HttpException('Stock not found', HttpStatus.NOT_FOUND);
     }
   }
 
   async getTheLastStock(): Promise<IStock | null> {
-    // Fetch the last document from the 'stocks' collection
     const lastStock = await this.stockModel
-      .findOne() // Find one document
-      .sort({ createdAt: -1 }) // Sort by 'createdAt' in descending order to get the most recent one
+      .findOne()
+      .sort({ createdAt: -1 })
       .exec();
 
-    // If no stock data is found, throw an exception
     if (!lastStock) {
       throw new NotFoundException('No stock data found');
     }
 
-    // Return the last stock document
     return lastStock;
   }
 
@@ -131,28 +124,29 @@ export class StocksService {
     if (!symbol) {
       throw new HttpException('Symbol is required', HttpStatus.BAD_REQUEST);
     }
-  
+
     // Recherche de la dernière donnée en fonction du symbole
     const latestStock = await this.stockModel
       .findOne({ symbol })
-      .sort({ createdAt: -1 }) // Tri par date de création décroissante
+      .sort({ createdAt: -1 }) 
       .exec();
-  
+
     if (!latestStock) {
-      throw new HttpException(`No stock data found for symbol: ${symbol}`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `No stock data found for symbol: ${symbol}`,
+        HttpStatus.NOT_FOUND,
+      );
     }
-  
-    console.log('🟢 Latest stock data:', latestStock);
-  
-    return latestStock; // Retourne la dernière entrée trouvée
+
+
+    return latestStock;
   }
 
-    async findOne(id: string): Promise<IStock> {
-      let stock = await this.stockModel.findById(id).exec();
-      if (!stock) {
-        throw new NotFoundException(`stock with id ${id} is not found`);
-      }
-      return stock;
+  async findOne(id: string): Promise<IStock> {
+    let stock = await this.stockModel.findById(id).exec();
+    if (!stock) {
+      throw new NotFoundException(`stock with id ${id} is not found`);
     }
-  
+    return stock;
+  }
 }

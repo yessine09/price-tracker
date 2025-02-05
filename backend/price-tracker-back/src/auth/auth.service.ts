@@ -17,7 +17,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  //Method of SignIN
+  //Method of Signin
   async signIn(createLoginDto: CreateLoginDto) {
     const user = await this.usersService.findWithEmail(createLoginDto.email);
 
@@ -31,11 +31,7 @@ export class AuthService {
       throw new UnauthorizedException('Password is incorrect');
 
     const userIdString = user._id.toString();
-    const userEmailString = user.email.toString();
-
-    //token
     const tokens = await this.generateToken(userIdString, user.email);
-    console.log('token', tokens);
 
     await this.updateRefreshUser(userIdString, tokens.refreshToken);
 
@@ -101,14 +97,4 @@ export class AuthService {
     });
     return updateRefreshNull;
   }
-
-  async login(user: any) {
-    const payload = { email: user.email, sub: user._id };
-    console.log(payload, 'payloaaaaaaaaaaaad');
-    const tokens = await this.generateToken(user._id, user.email);
-    console.log('token', tokens);
-    await this.updateRefreshUser(user._id, tokens.refreshToken);
-    return { tokens, user };
-  }
-
 }

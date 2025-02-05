@@ -192,12 +192,12 @@ const Login = () => {
                             <ErrorMessage
                               name="password"
                               component="div"
-                              className="text-danger position-absolute" // Ajoute position absolute pour l'erreur
+                              className="text-danger position-absolute" 
                               style={{
                                 top: "100%",
                                 left: 0,
                                 fontSize: "0.875rem",
-                              }} // Positionne l'erreur sous l'input
+                              }} 
                             />
                           </div>
                         </div>
