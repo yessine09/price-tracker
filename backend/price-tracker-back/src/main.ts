@@ -11,8 +11,8 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173', // Local frontend URL
       'http://localhost:3000', // Local backend URL
-      'https://price-tracker-8va2kv5q5-yessine09s-projects.vercel.app', // Your Vercel production frontend URL
-      'https://your-vercel-frontend-url.vercel.app', // Add your Vercel frontend URL here
+      'https://price-tracker-ecru.vercel.app', // URL de production Vercel
+
     ],
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     credentials: true, // Allow credentials like cookies if necessary
