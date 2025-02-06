@@ -12,6 +12,7 @@ import {
   Legend,
 } from "chart.js";
 import stockService from "../../services/stockService";
+import "./historicalPrice.css";
 
 ChartJS.register(
   CategoryScale,
@@ -51,7 +52,6 @@ const HistoricalChart = ({ symbol }) => {
     }
   }, [symbol]);
 
-  // Prepare chart data
   const chartData = {
     labels: historicalData.map((item) =>
       new Date(item.date).toLocaleDateString()
@@ -90,10 +90,10 @@ const HistoricalChart = ({ symbol }) => {
       {
         label: "Volume",
         data: historicalData.map((item) => item.volume),
-        borderColor: "#ff6f61", // Volume color
-        backgroundColor: "rgba(255, 111, 97, 0.2)", // Volume bar color
-        type: "bar", // Use bar chart for volume
-        yAxisID: "y1", // Link this dataset to the second Y-axis
+        borderColor: "#ff6f61",
+        backgroundColor: "rgba(255, 111, 97, 0.2)",
+        type: "bar",
+        yAxisID: "y1",
       },
     ],
   };
@@ -107,10 +107,10 @@ const HistoricalChart = ({ symbol }) => {
           label: (context) => {
             if (context.dataset.type === "bar") {
               const volume = context.raw;
-              return `${volume.toLocaleString()} shares`; // Format volume with commas
+              return `${volume.toLocaleString()} shares`;
             }
             const price = context.raw;
-            return `$${price.toFixed(2)}`; // Price formatting
+            return `$${price.toFixed(2)}`;
           },
         },
         intersect: false,
@@ -149,13 +149,13 @@ const HistoricalChart = ({ symbol }) => {
         },
       },
       y1: {
-        position: "right", // Place the volume scale on the right
+        position: "right",
         grid: {
           color: "rgba(0, 0, 0, 0.1)",
         },
         ticks: {
           callback: function (value) {
-            return `${value.toLocaleString()} shares`; // Format volume ticks with commas
+            return `${value.toLocaleString()} shares`;
           },
         },
       },
@@ -175,12 +175,11 @@ const HistoricalChart = ({ symbol }) => {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "500px" }}>
+    <div className="chart-container">
       {loading && <p>Loading historical data...</p>}
       {error && <p>{error}</p>}
       {historicalData.length > 0 && (
-        <div style={{ width: "100%", height: "100%" }}>
-          {/* <h2>{symbol} Historical Price and Volume Chart</h2> */}
+        <div className="chart-content">
           <Line data={chartData} options={chartOptions} />
         </div>
       )}

@@ -1,5 +1,6 @@
 /* Full-page gray background */
-body, html {
+body,
+html {
   background-color: #f5f5f583;
   height: 100%;
 }
@@ -35,7 +36,7 @@ body, html {
     width: 100%;
     position: relative;
   }
-  
+
   .form-floating input,
   .form-floating label {
     font-size: 1rem; /* Ensure the font is readable */
@@ -47,7 +48,7 @@ body, html {
   }
 
   .btn {
-    font-size: 1rem;  /* Adjust button size */
+    font-size: 1rem; /* Adjust button size */
     padding: 12px;
   }
 }
@@ -123,4 +124,35 @@ body, html {
 
 .text-center {
   text-align: center !important;
+}
+
+/* Add this to your CSS file (auth.css) */
+.input-group .text-danger {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-size: 0.875rem;
+  width: 100%;
+  display: block;
+  text-align: left;
+}
+
+/* Make sure the error message stays aligned even on smaller screens */
+@media (max-width: 576px) {
+  .input-group .text-danger {
+    left: 0;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .input-group .text-danger {
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .input-group .text-danger {
+    font-size: 0.875rem;
+  }
 }

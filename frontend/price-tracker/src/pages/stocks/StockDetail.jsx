@@ -52,7 +52,7 @@ const StockDetail = () => {
 
       <section className="pb-5 bg-light mt-5 d-flex justify-content-center">
         <div className="container">
-          <Card className="shadow-lg p-4 bg-white rounded text-center stock-detail-card">
+          <Card className="shadow-lg p-4 bg-white rounded text-center ">
             <h1 className="mb-4 stock-title" style={{ color: "#2E3A59" }}>
               Stock Detail
             </h1>
@@ -85,20 +85,23 @@ const StockDetail = () => {
             </div>
 
             {/* Chart Box */}
-            <Card className="shadow-sm p-3 rounded bg-light">
-              <HistoricalChart symbol={detailStock?.symbol} />
+            <Card className="shadow-sm p-3 rounded bg-light chart-card">
+              <div className="">
+                <HistoricalChart symbol={detailStock?.symbol} />
+              </div>
             </Card>
-
-            <Link to="/home">
-              <Button
-                type="primary"
-                icon={<HomeOutlined />}
-                className="mt-4 responsive-btn"
-                size="large"
-              >
-                Back to Home
-              </Button>
-            </Link>
+            <div className="">
+              <Link to="/home">
+                <Button
+                  type="primary"
+                  icon={<HomeOutlined />}
+                  className="mt-4 responsive-btn"
+                  size="large"
+                >
+                  Back to Home
+                </Button>
+              </Link>
+            </div>
           </Card>
         </div>
       </section>
