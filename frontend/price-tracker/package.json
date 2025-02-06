@@ -3,12 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "build": "vite build",
-    "dev": "vite",
-    "preview": "vite preview",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
-  },
+"scripts": {
+  "build": "vite build",
+  "dev": "vite",
+  "start": "vite preview"
+},
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.5.1",
