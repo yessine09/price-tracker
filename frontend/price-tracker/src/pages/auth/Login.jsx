@@ -95,6 +95,7 @@ const Login = () => {
                         <img
                           src="./assets/img/pstrack_logo.png"
                           alt="BootstrapBrain Logo"
+                          className="img-fluid"
                           width={175}
                           height={57}
                         />
@@ -192,12 +193,12 @@ const Login = () => {
                             <ErrorMessage
                               name="password"
                               component="div"
-                              className="text-danger position-absolute" 
+                              className="text-danger position-absolute"
                               style={{
                                 top: "100%",
                                 left: 0,
                                 fontSize: "0.875rem",
-                              }} 
+                              }}
                             />
                           </div>
                         </div>

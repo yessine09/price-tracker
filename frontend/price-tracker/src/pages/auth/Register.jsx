@@ -76,21 +76,20 @@ const Register = () => {
 
   return (
     <>
-      <section className="bg-light py-3 py-md-5 mt-10 ">
+      <section className="bg-light py-3 py-md-5 auth-container">
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-              <div className="card border border-light-subtle rounded-3 shadow-sm">
-                <div className="card-body p-3 p-md-4 p-xl-5">
+            <div className="col-lg-6 col-md-8 col-sm-10 col-12">
+              <div className="card border rounded-3 shadow-sm auth-card">
+                <div className="card-body p-4">
                   <div className="text-center mb-3">
-                    <a href="#!">
-                      <img
-                        src="./assets/img/pstrack_logo.png"
-                        alt="BootstrapBrain Logo"
-                        width={175}
-                        height={57}
-                      />
-                    </a>
+                    <img
+                      src="./assets/img/pstrack_logo.png"
+                      className="responsive-logo"
+                      alt="Logo"
+                      width={175}
+                      height={57}
+                    />
                   </div>
                   <h2 className="fs-6 fw-normal text-center text-secondary mb-4">
                     Enter your details to register
@@ -107,14 +106,11 @@ const Register = () => {
                       handleBlur,
                       handleSubmit,
                       isSubmitting,
-                      errors,
-                      touched,
                     }) => (
-                      <Form className="forms-sample" onSubmit={handleSubmit}>
-                        <div className="row gy-2 overflow-hidden">
-                          {/* First Name */}
+                      <Form onSubmit={handleSubmit}>
+                        <div className="row gy-3">
                           <div className="col-12">
-                            <div className="form-floating mb-3">
+                            <div className="form-floating">
                               <input
                                 type="text"
                                 className="form-control"
@@ -130,15 +126,12 @@ const Register = () => {
                                 component="div"
                                 className="text-danger"
                               />
-                              <label htmlFor="name" className="form-label">
-                                First Name
-                              </label>
+                              <label htmlFor="name">First Name</label>
                             </div>
                           </div>
 
-                          {/* Last Name */}
                           <div className="col-12">
-                            <div className="form-floating mb-3">
+                            <div className="form-floating">
                               <input
                                 type="text"
                                 className="form-control"
@@ -154,21 +147,18 @@ const Register = () => {
                                 component="div"
                                 className="text-danger"
                               />
-                              <label htmlFor="lastName" className="form-label">
-                                Last Name
-                              </label>
+                              <label htmlFor="lastName">Last Name</label>
                             </div>
                           </div>
 
-                          {/* Email */}
                           <div className="col-12">
-                            <div className="form-floating mb-3">
+                            <div className="form-floating">
                               <input
                                 type="email"
                                 className="form-control"
                                 name="email"
                                 id="email"
-                                placeholder="name@example.com"
+                                placeholder="Email"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.email}
@@ -178,15 +168,12 @@ const Register = () => {
                                 component="div"
                                 className="text-danger"
                               />
-                              <label htmlFor="email" className="form-label">
-                                Email
-                              </label>
+                              <label htmlFor="email">Email</label>
                             </div>
                           </div>
 
-                          {/* Password */}
                           <div className="col-12">
-                            <div className="form-floating mb-3">
+                            <div className="form-floating">
                               <input
                                 type="password"
                                 className="form-control"
@@ -202,89 +189,53 @@ const Register = () => {
                                 component="div"
                                 className="text-danger"
                               />
-                              <label htmlFor="password" className="form-label">
-                                Password
-                              </label>
+                              <label htmlFor="password">Password</label>
                             </div>
                           </div>
 
-                          {/* Confirm Password */}
-                          <div className="col-12">
-                            <div className="form-floating mb-3">
-                              <input
-                                type="password"
-                                className="form-control"
-                                name="confirmPassword"
-                                id="confirmPassword"
-                                placeholder="Confirm Password"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.confirmPassword}
-                              />
-                              <ErrorMessage
-                                name="confirmPassword"
-                                component="div"
-                                className="text-danger"
-                              />
-                              <label
-                                htmlFor="confirmPassword"
-                                className="form-label"
-                              >
-                                Confirm Password
-                              </label>
+                          <div className="row">
+                            <div className="col-12">
+                              <div className="form-check">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  name="iAgree"
+                                  id="iAgree"
+                                  checked={conditions}
+                                  onChange={handleCheckboxChange}
+                                  required
+                                />
+                                <label
+                                  className="form-check-label text-secondary"
+                                  style={{ wordBreak: "break-word" }}
+                                >
+                                  I agree to the{" "}
+                                  <a
+                                    className="link-primary"
+                                    href="#"
+                                    style={{ textDecoration: "underline" }}
+                                  >
+                                    terms and conditions
+                                  </a>
+                                </label>
+                              </div>
                             </div>
                           </div>
 
-                          {/* Terms and Conditions */}
                           <div className="col-12">
-                            <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                name="iAgree"
-                                id="iAgree"
-                                checked={conditions}
-                                onChange={handleCheckboxChange}
-                                required
-                              />
-                              <ErrorMessage
-                                name="conditions"
-                                component="div"
-                                className="text-danger"
-                              />
-                              <label
-                                className="form-check-label text-secondary"
-                                htmlFor="iAgree"
-                              >
-                                I agree to the{" "}
-                                <a className="link-primary text-decoration-none">
-                                  terms and conditions
-                                </a>
-                              </label>
-                            </div>
+                            <button
+                              className="btn btn-primary btn-lg w-100"
+                              type="submit"
+                              disabled={isSubmitting}
+                            >
+                              Sign up
+                            </button>
                           </div>
 
-                          {/* Submit Button */}
-                          <div className="col-12">
-                            <div className="d-grid my-3">
-                              <button
-                                className="btn btn-primary btn-lg"
-                                type="submit"
-                                disabled={isSubmitting}
-                              >
-                                Sign up
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Link to Login */}
-                          <div className="col-12">
-                            <p className="m-0 text-secondary text-center">
+                          <div className="col-12 text-center">
+                            <p className="text-secondary">
                               Already have an account?{" "}
-                              <Link
-                                to="/"
-                                className="link-primary text-decoration-none"
-                              >
+                              <Link to="/" className="link-primary">
                                 Sign in
                               </Link>
                             </p>
