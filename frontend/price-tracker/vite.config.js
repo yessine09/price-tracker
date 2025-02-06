@@ -3,11 +3,9 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  base: "/price-tracker/",
   build: {
-    outDir: "frontend/price-tracker/dist",
-    rollupOptions: {
-      input: "index.html",
-    },
+    outDir: "dist",
   },
   server: {
     proxy: {
