@@ -52,8 +52,8 @@ const StockDetail = () => {
 
       <section className="pb-5 bg-light mt-5 d-flex justify-content-center">
         <div className="container">
-          <Card className="shadow-lg p-4 bg-white rounded text-center">
-            <h1 className="mb-4" style={{ color: "#2E3A59" }}>
+          <Card className="shadow-lg p-4 bg-white rounded text-center stock-detail-card">
+            <h1 className="mb-4 stock-title" style={{ color: "#2E3A59" }}>
               Stock Detail
             </h1>
             {error && <Alert message={error} type="error" showIcon />}
@@ -63,7 +63,7 @@ const StockDetail = () => {
                 <StockOutlined className="me-2" />
                 {detailStock?.symbol}
               </h4>
-              <p className="fs-4 fw-bold text-dark">
+              <p className="fs-4 fw-bold text-dark stock-price">
                 Price: ${detailStock?.currentPrice || "N/A"}
               </p>
               <p
@@ -93,7 +93,7 @@ const StockDetail = () => {
               <Button
                 type="primary"
                 icon={<HomeOutlined />}
-                className="mt-4"
+                className="mt-4 responsive-btn"
                 size="large"
               >
                 Back to Home

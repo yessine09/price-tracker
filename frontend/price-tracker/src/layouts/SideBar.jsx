@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import logopic from "/assets/img/pstrack_logo.png";
 const SideBar = () => {
   return (
     <>
@@ -13,7 +13,7 @@ const SideBar = () => {
         <div className="offcanvas-header">
           <a className="sidebar-brand" href="index.html">
             <img
-              src="./assets/img/pstrack_logo.png"
+              src={logopic}
               id="bsbSidebarLabel1"
               className="bsb-tpl-logo"
               alt="BootstrapBrain Logo"

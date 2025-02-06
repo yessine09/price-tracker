@@ -4,6 +4,8 @@ import { logOut } from "../features/useRedux";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
+import LogoImage from "/assets/img/pstrack_logo.png";
+import profileImg from "/assets/img/profile/profile-img-1.jpg";
 
 const NavBar = () => {
   const auth = useSelector((state) => state.user);
@@ -52,7 +54,7 @@ const NavBar = () => {
             </ul>
             <div className="navbar-brand">
               <img
-                src="./assets/img/pstrack_logo.png"
+                src={LogoImage}
                 className="bsb-tpl-logo"
                 alt="BootstrapBrain Logo"
               />
@@ -154,7 +156,7 @@ const NavBar = () => {
                         <div className="row g-0 align-items-center">
                           <div className="col-2">
                             <img
-                              src="./assets/img/translation/flag-img-2.svg"
+                              src="/assets/img/translation/flag-img-2.svg"
                               className="img-fluid rounded-pill"
                               alt="Chinese"
                             />
@@ -174,7 +176,7 @@ const NavBar = () => {
                         <div className="row g-0 align-items-center">
                           <div className="col-2">
                             <img
-                              src="./assets/img/translation/flag-img-3.svg"
+                              src="/assets/img/translation/flag-img-3.svg"
                               className="img-fluid rounded-pill"
                               alt="English"
                             />
@@ -194,7 +196,7 @@ const NavBar = () => {
                         <div className="row g-0 align-items-center">
                           <div className="col-2">
                             <img
-                              src="./assets/img/translation/flag-img-4.svg"
+                              src="/assets/img/translation/flag-img-4.svg"
                               className="img-fluid rounded-pill"
                               alt="French"
                             />
@@ -250,7 +252,7 @@ const NavBar = () => {
                         <div className="row g-0 align-items-center">
                           <div className="col-2">
                             <img
-                              src="./assets/img/chat/chat-img-1.jpg"
+                              src="/assets/img/chat/chat-img-1.jpg"
                               className="img-fluid rounded-circle"
                               alt="Luna John"
                             />
@@ -396,7 +398,7 @@ const NavBar = () => {
                     aria-expanded="false"
                   >
                     <img
-                      src="./assets/img/profile/profile-img-1.jpg"
+                      src={profileImg}
                       width={35}
                       height={35}
                       className="img-fluid rounded-circle"
@@ -436,7 +438,7 @@ const NavBar = () => {
                         <div className="row g-0 align-items-center">
                           <div className="col-3">
                             <img
-                              src="./assets/img/profile/profile-img-1.jpg"
+                              src={profileImg}
                               width={55}
                               height={55}
                               className="img-fluid rounded-circle"

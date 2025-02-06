@@ -166,7 +166,7 @@ const Watchlist = () => {
                     <Button
                       type="primary"
                       icon={<HomeOutlined />}
-                      className="mb-4"
+                      className="mb-4 responsive-btn"
                       size="large"
                     >
                       Back to Home

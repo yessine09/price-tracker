@@ -7,10 +7,10 @@ import { User } from 'src/users/entities/user.entity';
 @Schema({ timestamps: true })
 export class Watchlist {
   @Prop({ type: Types.ObjectId, ref: 'users', required: true })
-  user: User;  // L'utilisateur auquel appartient cette watchlist
+  user: User;  
 
   @Prop({ type: [Types.ObjectId], ref: 'stocks', required: true })
-  stocks: Stock[];  // Liste des actions dans la watchlist
+  stocks: Stock[]; 
 
 }
 

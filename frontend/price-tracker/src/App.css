@@ -1,0 +1,68 @@
+/* Default for Large Screens */
+.container {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Default Button Styling */
+.responsive-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Stock Detail Card */
+.stock-detail-card {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Medium Screens (Tablets) */
+@media (max-width: 992px) {
+  .container {
+    width: 90%;
+  }
+  .responsive-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  .stock-detail-card {
+    padding: 15px;
+  }
+}
+
+/* Small Screens (Mobile) */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+  .responsive-btn {
+    width: 100%; /* Full width on mobile */
+    font-size: 0.85rem;
+  }
+  .stock-detail-card {
+    padding: 10px;
+  }
+  .stock-title {
+    font-size: 20px;
+  }
+
+  .stock-price {
+    font-size: 16px;
+  }
+}
+
+/* Responsive Text */
+h1 {
+  font-size: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+}
