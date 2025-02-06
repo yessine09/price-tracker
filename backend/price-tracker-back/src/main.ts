@@ -1,20 +1,20 @@
 import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import serverless from 'serverless-http';
+import * as serverless from 'serverless-http'; // Make sure to import serverless
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create(AppModule);
 
+  // CORS configuration
   app.enableCors({
     origin: [
-      'http://localhost:5173',
-      'http://localhost:3000',
-      'https://price-tracker-8va2kv5q5-yessine09s-projects.vercel.app',
+      'http://localhost:5173', // Local frontend URL
+      'http://localhost:3000', // Local backend URL
+      'https://price-tracker-8va2kv5q5-yessine09s-projects.vercel.app', // Your Vercel production frontend URL
     ],
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-    credentials: true,
+    credentials: true, // Allow credentials like cookies if necessary
   });
 
   const config = new DocumentBuilder()
@@ -49,18 +49,16 @@ async function bootstrap() {
     .addTag('historical-price')
     .addTag('watchlist')
     .build();
-
   const document = SwaggerModule.createDocument(app, config);
+
   SwaggerModule.setup('api', app, document);
 
-  await app.init(); // Initialize NestJS app
-
-  // ✅ Return Express instance for serverless deployment
-  return serverless(app.getHttpAdapter().getInstance());
+  // Use serverless-http for Vercel
+  if (process.env.NODE_ENV === 'production') {
+    return serverless(app.getHttpAdapter().getInstance());
+  } else {
+    await app.listen(3000); // For local development
+  }
 }
 
-// ✅ Export handler for Vercel
-export const handler = async (event, context) => {
-  const app = await bootstrap();
-  return app(event, context);
-};
+bootstrap();
