@@ -2,25 +2,25 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/price-tracker/package.json",
+      "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
       }
     },
     {
-      "src": "backend/price-tracker-back/package.json",
+      "src": "backend/package.json",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/price-tracker-back/main.js"
+      "dest": "/backend/main.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/price-tracker/dist/$1"
+      "dest": "/frontend/dist/$1"
     }
   ]
 }
