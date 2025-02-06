@@ -1,26 +1,27 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "frontend/price-tracker/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/price-tracker/dist"
+    "version": 2,
+    "builds": [
+      {
+        "src": "frontend/price-tracker/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "frontend/price-tracker/dist"
+        }
+      },
+      {
+        "src": "backend/price-tracker-back/package.json",
+        "use": "@vercel/node"
       }
-    },
-    {
-      "src": "backend/price-tracker-back/package.json",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/price-tracker-back/main"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/price-tracker/dist/index.html"
-    }
-  ]
-}
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/backend/price-tracker-back/main"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/frontend/price-tracker/dist/index.html"
+      }
+    ]
+  }
+  
