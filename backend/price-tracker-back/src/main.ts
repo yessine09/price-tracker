@@ -1,21 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as serverless from 'serverless-http'; // Make sure to import serverless
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // CORS configuration
   app.enableCors({
-    origin: [
-      'http://localhost:5173', // Local frontend URL
-      'http://localhost:3000', // Local backend URL
-      'https://price-tracker-ecru.vercel.app', // URL de production Vercel
-
-    ],
+    origin: ['http://localhost:5173', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-    credentials: true, // Allow credentials like cookies if necessary
+    credentials: true,
   });
 
   const config = new DocumentBuilder()
@@ -35,8 +28,8 @@ async function bootstrap() {
     )
     .addBearerAuth(
       {
-        description: 'Enter your RefreshToken',
-        name: 'Authorization',
+        description: 'Enter ur RefreshToken',
+        name: 'Autorization',
         scheme: 'Bearer',
         type: 'http',
         bearerFormat: 'JWT',
@@ -54,12 +47,6 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document);
 
-  // Use serverless-http for Vercel
-  if (process.env.NODE_ENV === 'production') {
-    return serverless(app.getHttpAdapter().getInstance());
-  } else {
-    await app.listen(3000); // For local development
-  }
+  await app.listen(3000);
 }
-
 bootstrap();
