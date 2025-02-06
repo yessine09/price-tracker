@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import serverless from 'serverless-http';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
     origin: [
@@ -32,8 +34,8 @@ async function bootstrap() {
     )
     .addBearerAuth(
       {
-        description: 'Enter ur RefreshToken',
-        name: 'Autorization',
+        description: 'Enter your RefreshToken',
+        name: 'Authorization',
         scheme: 'Bearer',
         type: 'http',
         bearerFormat: 'JWT',
@@ -47,10 +49,18 @@ async function bootstrap() {
     .addTag('historical-price')
     .addTag('watchlist')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
 
+  const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.init(); // Initialize NestJS app
+
+  // ✅ Return Express instance for serverless deployment
+  return serverless(app.getHttpAdapter().getInstance());
 }
-bootstrap();
+
+// ✅ Export handler for Vercel
+export const handler = async (event, context) => {
+  const app = await bootstrap();
+  return app(event, context);
+};
