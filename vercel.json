@@ -4,7 +4,9 @@
     {
       "src": "frontend/price-tracker/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "frontend/price-tracker/dist" }
+      "config": {
+        "distDir": "frontend/price-tracker/dist"
+      }
     },
     {
       "src": "backend/price-tracker-back/package.json",
