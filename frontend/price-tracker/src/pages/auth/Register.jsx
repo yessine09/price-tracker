@@ -37,6 +37,8 @@ const Register = () => {
     lastName: "",
     password: "",
     email: "",
+    confirmPassword: "",
+    conditions: false,
   };
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -191,6 +193,24 @@ const Register = () => {
                               />
                               <label htmlFor="password">Password</label>
                             </div>
+                            <div className="form-floating">
+                              <input
+                                type="password"
+                                className="form-control"
+                                name="confirmPassword"
+                                id="confirmPassword"
+                                placeholder="Confirm password"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.confirmPassword}
+                              />
+                              <ErrorMessage
+                                name="confirmPassword"
+                                component="div"
+                                className="text-danger"
+                              />
+                              <label htmlFor="password">Confirm Password</label>
+                            </div>
                           </div>
 
                           <div className="row">
@@ -199,12 +219,11 @@ const Register = () => {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  name="iAgree"
-                                  id="iAgree"
-                                  checked={conditions}
-                                  onChange={handleCheckboxChange}
-                                  required
+                                  name="conditions"
+                                  checked={values.conditions}
+                                  onChange={handleChange}
                                 />
+
                                 <label
                                   className="form-check-label text-secondary"
                                   style={{ wordBreak: "break-word" }}

@@ -220,9 +220,9 @@ const HomePage = () => {
                           src="./assets/img/finance.jpg"
                           alt="Stock News"
                           style={{
-                            width: "100%", // Makes the image fit inside the parent container
-                            maxWidth: "100%", // Prevents overflow
-                            height: "auto", // Ensures aspect ratio is maintained
+                            width: "100%", 
+                            maxWidth: "100%", 
+                            height: "auto", 
                             objectFit: "cover",
                             borderRadius: "10px",
                             boxShadow: "0 4px 8px rgba(0,0,0,0.2)",

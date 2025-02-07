@@ -56,7 +56,7 @@ const Stock = () => {
   };
 
   // Add stock to watchlist (stored in localStorage)
-  const handleAddToWatchlist = async () => {
+  const handleAddToWatchlist = async (symbol) => {
     if (!userId) {
       Swal.fire({
         icon: "warning",
@@ -67,12 +67,11 @@ const Stock = () => {
     }
 
     try {
-      // Récupérer le dernier stock enregistré
-      const lastStockResponse = await stockService.getLastStock();
-      const lastStock = lastStockResponse?.data;
-      console.log("last stock", lastStock);
+      // Fetch the stock data based on the symbol
+      const stockResponse = await stockService.searchStock(symbol);
+      const stockData = stockResponse?.data;
 
-      if (!lastStock || !lastStock._id) {
+      if (!stockData || !stockData._id) {
         Swal.fire({
           icon: "error",
           title: "No stock found to add.",
@@ -81,29 +80,54 @@ const Stock = () => {
         return;
       }
 
-      // Check if stock is already in watchlist
-      if (watchlist.some((stock) => stock._id === lastStock._id)) {
+      // Check if the stock already exists in the watchlist
+      const existingStockIndex = watchlist.findIndex(
+        (stock) => stock.symbol === stockData.symbol
+      );
+
+      if (existingStockIndex !== -1) {
+        // Stock exists in the watchlist
+        const existingStock = watchlist[existingStockIndex];
+
+        if (existingStock._id === stockData._id) {
+          // Stock with the same ID already exists, no update needed
+          Swal.fire({
+            icon: "info",
+            title: `${stockData.symbol} is already in your watchlist.`,
+            confirmButtonText: "Ok",
+          });
+          return;
+        } else {
+          // Stock exists but with a different ID, replace the old one
+          const updatedWatchlist = [...watchlist];
+          updatedWatchlist[existingStockIndex] = stockData;
+          setWatchlist(updatedWatchlist);
+          localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
+
+          // Call the API to update the watchlist
+          await stockService.addToWatchlist(userId, stockData._id);
+
+          Swal.fire({
+            icon: "success",
+            title: `${stockData.symbol} has been updated in your watchlist!`,
+            confirmButtonText: "Great!",
+          });
+        }
+      } else {
+        // Stock does not exist in the watchlist, add it
+        const updatedWatchlist = [...watchlist, stockData];
+        setWatchlist(updatedWatchlist);
+        localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
+
+        // Call the API to add the stock to the watchlist
+        await stockService.addToWatchlist(userId, stockData._id);
+
         Swal.fire({
-          icon: "info",
-          title: `${lastStock.symbol} is already in your watchlist.`,
-          confirmButtonText: "Ok",
+          icon: "success",
+          title: `${stockData.symbol} added to watchlist!`,
+          confirmButtonText: "Great!",
         });
-        return;
       }
-
-      // Ajouter le stock à la watchlist avec l'ID récupéré
-      await stockService.addToWatchlist(userId, lastStock._id);
-
-      // Mettre à jour l'état de la watchlist
-      const updatedWatchlist = [...watchlist, lastStock];
-      setWatchlist(updatedWatchlist);
-      localStorage.setItem("watchlist", JSON.stringify(updatedWatchlist));
-
-      Swal.fire({
-        icon: "success",
-        title: `${lastStock.symbol} added to watchlist!`,
-        confirmButtonText: "Great!",
-      });
     } catch (error) {
       console.error("Failed to add to watchlist", error);
       Swal.fire({
@@ -113,19 +137,12 @@ const Stock = () => {
       });
     }
   };
-
   // Sumbit button for change historical Data & get Stock Detail
   const handleButtonClick = () => {
     setSymbolH(symbolSearch);
     handleSearchStock(symbolSearch);
     handleSearchStock();
   };
-
-  // Load watchlist from localStorage on page load
-  useEffect(() => {
-    const savedWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-    setWatchlist(savedWatchlist);
-  }, []);
 
   return (
     <div>
@@ -237,7 +254,9 @@ const Stock = () => {
                         type="primary"
                         className="mt-2"
                         icon={<HeartOutlined />}
-                        onClick={handleAddToWatchlist}
+                        onClick={() =>
+                          handleAddToWatchlist(stockDataSearch?.symbol)
+                        }
                         style={{
                           backgroundColor: "#ff4d4f",
                           borderColor: "#ff4d4f",
